@@ -20,6 +20,13 @@
     <Compile Include="config.php" />
     <Compile Include="db.php" />
     <Compile Include="index.php" />
+    <Compile Include="login.php" />
     <Compile Include="MySQLi.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="db\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="db\mock.sql" />
   </ItemGroup>
 </Project>
