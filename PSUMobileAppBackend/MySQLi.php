@@ -7,9 +7,9 @@ class DB {
 
 	function connect(){
 		if($GLOBALS['db']['port']==null){
-			$this->connection=mysqli_connect($GLOBALS['db']['server'], $GLOBALS['db']['db_user'], $GLOBALS['db']['db_password'], $GLOBALS['db']['db_name']);
+			$this->connection=mysqli_connect($GLOBALS['db']['server'], $GLOBALS['db']['user'], $GLOBALS['db']['password'], $GLOBALS['db']['name']);
 		}else{
-			$this->connection=mysqli_connect($GLOBALS['db']['server'], $GLOBALS['db']['db_user'], $GLOBALS['db']['db_password'], $GLOBALS['db']['db_name'], $GLOBALS['db']['port']);
+			$this->connection=mysqli_connect($GLOBALS['db']['server'], $GLOBALS['db']['user'], $GLOBALS['db']['password'], $GLOBALS['db']['name'], $GLOBALS['db']['port']);
         }
     }
     
