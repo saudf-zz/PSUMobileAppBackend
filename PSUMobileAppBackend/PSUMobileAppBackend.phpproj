@@ -22,6 +22,7 @@
     <Compile Include="index.php" />
     <Compile Include="login.php" />
     <Compile Include="MySQLi.php" />
+    <Compile Include="Oracle.php" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="db\" />

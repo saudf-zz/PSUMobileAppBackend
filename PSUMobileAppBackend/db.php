@@ -2,6 +2,7 @@
 include('config.php');
 include($db['type'].'.php');
 
+global $database;
 $database = new DB();
 if(!$database->connection){
     echo "Connection error :(";
