@@ -19,6 +19,7 @@
   <ItemGroup>
     <Compile Include="config.php" />
     <Compile Include="db.php" />
+    <Compile Include="encryption.php" />
     <Compile Include="index.php" />
     <Compile Include="login.php" />
     <Compile Include="MySQLi.php" />

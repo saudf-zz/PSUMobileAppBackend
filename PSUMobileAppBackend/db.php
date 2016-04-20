@@ -6,7 +6,7 @@ global $database;
 $database = new DB();
 if(!$database->connection){
     echo "Connection error :(";
-    break;
+    exit();
 }
 
 function headers(){
