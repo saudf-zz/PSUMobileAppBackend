@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2016 at 01:50 PM
+-- Generation Time: Apr 21, 2016 at 07:51 AM
 -- Server version: 5.7.9
 -- PHP Version: 5.6.16
 
@@ -139,6 +139,9 @@ CREATE TABLE IF NOT EXISTS `student_absence` (
 --
 
 INSERT INTO `student_absence` (`SEMESTER`, `COURSE_NO`, `STUDENT_ID`) VALUES
+(20152, 1, 212210282),
+(20152, 1, 212210282),
+(20152, 1, 214110962),
 (20152, 1, 212210282);
 
 -- --------------------------------------------------------
