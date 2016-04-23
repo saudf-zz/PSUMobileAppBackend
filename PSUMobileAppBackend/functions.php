@@ -54,6 +54,7 @@ function absences(){
     $i=0;
     while($row = $GLOBALS['database']->fetch_row()){
         $array[i] = array(0=>$row[0], 1=>$row[1]);
+        $i++;
     }
     echo json_encode($GLOBALS['database']->fetch_array($result));
 }
