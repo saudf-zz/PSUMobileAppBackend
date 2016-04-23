@@ -17,12 +17,9 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="abcences.php" />
     <Compile Include="config.php" />
-    <Compile Include="db.php" />
-    <Compile Include="encryption.php" />
+    <Compile Include="functions.php" />
     <Compile Include="index.php" />
-    <Compile Include="login.php" />
     <Compile Include="MySQLi.php" />
     <Compile Include="Oracle.php" />
   </ItemGroup>
