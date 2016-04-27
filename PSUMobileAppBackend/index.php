@@ -23,6 +23,11 @@ switch ($_GET['req']){
         break;
     case 'plan':
         break;
+    case 'exams':
+        if(auth($_POST['sid'])){
+            exam_sched();
+        }
+        break;
     default:
         break;
 }
