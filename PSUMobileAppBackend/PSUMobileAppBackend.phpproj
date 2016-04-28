@@ -18,9 +18,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="config.php" />
-    <Compile Include="encryption.php" />
+    <Compile Include="functions.php" />
     <Compile Include="index.php" />
-    <Compile Include="login.php" />
     <Compile Include="MySQLi.php" />
     <Compile Include="Oracle.php" />
   </ItemGroup>
