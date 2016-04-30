@@ -49,7 +49,7 @@ eMEpk9g0YlDAUc4OwX4jWKg9Qw+De7cCIQCXvOW4unJw5d/AoFU7zcFBgrbMTEE6
 }
 
 function absences(){
-    $result = $GLOBALS['database']->query("SELECT C.COURSE_CODE, C.course_name_s, COUNT(*), (C.CONTACT_HRS/COUNT(*)*100) FROM Student_Absence AS A LEFT JOIN sis_courses AS C ON A.course_no=C.course_no WHERE SEMESTER=". $GLOBALS['curr_semes'] ." AND STUDENT_ID=".$_SESSION['uid']." GROUP BY A.COURSE_NO");
+    $result = $GLOBALS['database']->query("SELECT C.COURSE_CODE, C.course_name_s, COUNT(*), (COUNT(*)*100)/(C.CONTACT_HRS*16) FROM Student_Absence AS A LEFT JOIN sis_courses AS C ON A.course_no=C.course_no WHERE SEMESTER=". $GLOBALS['curr_semes'] ." AND STUDENT_ID=".$_SESSION['uid']." GROUP BY A.COURSE_NO");
     $array=array();
     $i=0;
     while($row = $GLOBALS['database']->fetch_row($result)){
@@ -60,18 +60,41 @@ function absences(){
 }
 
 function info (){
+    function getCollege($major){
+        switch($major){
+            case 'Computer Science':
+            case 'Computer Science / Digital Media':
+            case 'Software Engineering':
+            case 'Information Systems':
+            case 'Information Systems / Business Computing & E- Commerce':
+                return "College of Computer Sciences and Information Systems";
+            case 'Finance':
+            case 'Marketing':
+            case 'Accounting':
+            case 'Aviation Management':
+                return "College of Business Administation";
+            case 'Engineering Management / Construction':
+            case 'Engineering Management / Production and Manufacturing':
+            case 'Networks Engineering':
+            case 'Communication Engineering':
+                return "College of Engineering";
+            default:
+                return 'undef.';
+        }
+    }
     $result = $GLOBALS['database']->fetch_array($GLOBALS['database']->query("SELECT Students_Info.FIRST_NAME, Students_Info.MID_NAME, Students_Info.LAST_NAME, Students_Info.STUDENT_ID,
 sis_major.MAJOR_NAME_S, ACADEMIC_RECORDS.CUM_GPA FROM Students_Info LEFT JOIN ACADEMIC_RECORDS ON ACADEMIC_RECORDS.STUDENT_ID=Students_Info.STUDENT_ID LEFT JOIN sis_major ON academic_records.MAJOR_ID=sis_major.MAJOR_NO WHERE Students_Info.STUDENT_ID=".$_SESSION['uid']));
+    $result[6] = getCollege($result[4]);
     echo json_encode($result);
 }
 
 function exam_sched(){
-    $result = $GLOBALS['database']->fetch_array($GLOBALS['database']->query("SELECT T.FINALEXAM_DATE, T.EXAM_PERIOD, C.COURSE_CODE, C.course_name_s FROM TimeTable AS T INNER JOIN SIS_COURSES AS C ON T.COURSE_NO=C.course_no WHERE T.COURSE_NO IN(SELECT COURSE_NO FROM Student_Course WHERE Student_ID=". $_SESSION['uid'] ." AND SEMESTER=". $GLOBALS['curr_semes'] .")"));
+    $result = $GLOBALS['database']->query("SELECT C.COURSE_CODE, C.course_name_s, T.FINALEXAM_DATE, T.EXAM_PERIOD FROM TimeTable AS T INNER JOIN SIS_COURSES AS C ON T.COURSE_NO=C.course_no WHERE T.COURSE_NO IN (SELECT COURSE_NO FROM Student_Course WHERE Student_ID=". $_SESSION['uid'] ." AND SEMESTER=". $GLOBALS['curr_semes'] .")");
     $array=array();
     $i=0;
     while ($row = $GLOBALS['database']->fetch_row($result)){
-    $array[$i]=array(0=>$row[0], 1=>$row[1],2=>$row[2], 3=>$row[3], 4=>$row[4]);
-    $i++;
+        $array[$i]=array(0=>$row[0], 1=>$row[1],2=>$row[2], 3=>$row[3]);
+        $i++;
     }
     echo json_encode($array);
 }
