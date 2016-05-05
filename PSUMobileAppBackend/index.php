@@ -31,5 +31,5 @@ switch ($_GET['req']){
     default:
         break;
 }
-
+//$database->log_error($database->connection->get_warnings);
 ?>

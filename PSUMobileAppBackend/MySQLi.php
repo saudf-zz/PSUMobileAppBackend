@@ -2,7 +2,7 @@
 /**
  * MySQL database library: for testing and prototyping.
  *  uses the improved library in PHP (MySQLi).
- *  
+ *
  * @version 1.0
  */
 
@@ -22,15 +22,24 @@ class DB {
 	function connect()
     {
 		if($GLOBALS['db']['port']==null){
-			$this->connection=mysqli_connect($GLOBALS['db']['server'], $GLOBALS['db']['user'], $GLOBALS['db']['password'], $GLOBALS['db']['name']);
+			$this->connection = new mysqli($GLOBALS['db']['server'], $GLOBALS['db']['user'], $GLOBALS['db']['password'], $GLOBALS['db']['name']);
 		}else{
-			$this->connection=mysqli_connect($GLOBALS['db']['server'], $GLOBALS['db']['user'], $GLOBALS['db']['password'], $GLOBALS['db']['name'], $GLOBALS['db']['port']);
+			$this->connection = new mysqli($GLOBALS['db']['server'], $GLOBALS['db']['user'], $GLOBALS['db']['password'], $GLOBALS['db']['name'], $GLOBALS['db']['port']);
+        }
+        /* check connection */
+        if ($this->connection->connect_errno) {
+            $this->log_error($this->connection->connect_error);
+            exit();
         }
     }
-    
+
     function query ($query)
     {
-        return mysqli_query($this->connection, $query);
+        $result = $this->connection->query($query);
+        if(!$result){
+            $this->log_error($this->connection->connect_errno.': '.$this->connection->error);
+        }
+        return $result;
     }
 
     function fetch_array($result)
@@ -41,6 +50,10 @@ class DB {
     function fetch_row($result)
     {
         return mysqli_fetch_row($result);
+    }
+
+    function log_error($error){
+        error_log($error."\n", 3, "log.txt");
     }
 
     function close ()

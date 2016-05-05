@@ -1,33 +1,24 @@
 <?php
-
 /**
  *
  * PSU Backend (functions file)
  * version 1.0
  **/
-
 // general header
 ini_set('session.gc_maxlifetime', 68400);
 session_set_cookie_params(86400);
 require('config.php');
 require($db['type'].'.php');
-
 global $database, $curr_semes;
 $database = new DB();
 $curr_semes = 20152;
-if(!$database->connection){
-    //connection error
-}
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
-
-
 function auth($sid){
     session_id($sid);
     session_start();
     return isset($_SESSION['uid']);
 }
-
 function login($user, $pass){
     $privateKey = openssl_get_privatekey("-----BEGIN RSA PRIVATE KEY-----
 MIIBOgIBAAJBAILMveJq+2yD2rTo8Fu9ZqtRyylzLyIUUkrUwmPGXLhlXV9mBi6J
@@ -47,7 +38,6 @@ eMEpk9g0YlDAUc4OwX4jWKg9Qw+De7cCIQCXvOW4unJw5d/AoFU7zcFBgrbMTEE6
     $array['sid']=session_id();
     echo json_encode($array);
 }
-
 function absences(){
     $result = $GLOBALS['database']->query("SELECT C.COURSE_CODE, C.course_name_s, COUNT(*), (COUNT(*)*100)/(C.CONTACT_HRS*16) FROM Student_Absence AS A LEFT JOIN sis_courses AS C ON A.course_no=C.course_no WHERE SEMESTER=". $GLOBALS['curr_semes'] ." AND STUDENT_ID=".$_SESSION['uid']." GROUP BY A.COURSE_NO");
     $array=array();
@@ -58,7 +48,6 @@ function absences(){
     }
     echo json_encode($array);
 }
-
 function info (){
     function getCollege($major){
         switch($major){
@@ -78,6 +67,8 @@ function info (){
             case 'Networks Engineering':
             case 'Communication Engineering':
                 return "College of Engineering";
+            case 'Law':
+                return "College of Law";
             default:
                 return 'undef.';
         }
@@ -87,7 +78,6 @@ sis_major.MAJOR_NAME_S, ACADEMIC_RECORDS.CUM_GPA FROM Students_Info LEFT JOIN AC
     $result[6] = getCollege($result[4]);
     echo json_encode($result);
 }
-
 function exam_sched(){
     $result = $GLOBALS['database']->query("SELECT C.COURSE_CODE, C.course_name_s, T.FINALEXAM_DATE, T.EXAM_PERIOD FROM TimeTable AS T INNER JOIN SIS_COURSES AS C ON T.COURSE_NO=C.course_no WHERE T.COURSE_NO IN (SELECT COURSE_NO FROM Student_Course WHERE Student_ID=". $_SESSION['uid'] ." AND SEMESTER=". $GLOBALS['curr_semes'] .")");
     $array=array();
@@ -98,5 +88,4 @@ function exam_sched(){
     }
     echo json_encode($array);
 }
-
 ?>

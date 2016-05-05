@@ -2,13 +2,11 @@
 /**
  * PSUMobileApp Backend code
  * set the database information as you wish
- * 
+ *
  * @version 1.0
  * */
-
  //globalize the settings array for use in DB class
 global $db;
-
 $db['server'] = "localhost";
 $db['type'] = "MySQLi";
 $db['user'] = "root";
