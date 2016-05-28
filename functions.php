@@ -20,7 +20,7 @@ function auth($sid){
     return isset($_SESSION['uid']);
 }
 function sched(){
-    $result = $GLOBALS['database']->query("SELECT * FROM STUDENT_MEETING WHERE COURSE_ID IN (SELECT COURSE_NO FROM Student_courses WHERE STUDENT_ID=".$_SESSION['sid']." AND SEMESTER=".$GLOBALS['curr_semes'].")");
+    $result = $GLOBALS['database']->query("SELECT C.COURSE_CODE, M.DAY, M.START_TIME, M.END_TIME FROM courses_meeting AS M LEFT JOIN sis_courses AS C ON C.course_no=M.course_ID WHERE M.COURSE_ID IN (SELECT COURSE_NO FROM Student_course WHERE STUDENT_ID=".$_SESSION['uid']." AND SEMESTER=".$GLOBALS['curr_semes'].")");
     $array=array();
     for($i=0;$row = $GLOBALS['database']->fetch_row($result);$i++){
         $array[$i] = array(0=>$row[0], 1=>$row[1], 2=>$row[2], 3=>$row[3]);

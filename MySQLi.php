@@ -45,7 +45,7 @@ class DB {
         return mysqli_fetch_row($result);
     }
     function log_error($error){
-        error_log($error, 3, "log.txt");
+        error_log($error, 3, "db.log");
     }
     function close ()
     {
