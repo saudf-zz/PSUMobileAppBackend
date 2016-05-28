@@ -5,20 +5,16 @@
  *
  * @version 1.0
  */
-
 class DB {
     var $connection;
-
 	function __construct()
     {
 		$this->connect();
 	}
-
     function __destruct()
     {
         $this->close();
     }
-
 	function connect()
     {
 		if($GLOBALS['db']['port']==null){
@@ -32,7 +28,6 @@ class DB {
             exit();
         }
     }
-
     function query ($query)
     {
         $result = $this->connection->query($query);
@@ -41,21 +36,17 @@ class DB {
         }
         return $result;
     }
-
     function fetch_array($result)
     {
         return mysqli_fetch_array($result);
     }
-
     function fetch_row($result)
     {
         return mysqli_fetch_row($result);
     }
-
     function log_error($error){
-        error_log($error."\n", 3, "log.txt");
+        error_log($error, 3, "log.txt");
     }
-
     function close ()
     {
         return mysqli_close($this->connection);

@@ -19,6 +19,31 @@ function auth($sid){
     session_start();
     return isset($_SESSION['uid']);
 }
+function sched(){
+    $result = $GLOBALS['database']->query("SELECT * FROM STUDENT_MEETING WHERE COURSE_ID IN (SELECT COURSE_NO FROM Student_courses WHERE STUDENT_ID=".$_SESSION['sid']." AND SEMESTER=".$GLOBALS['curr_semes'].")");
+    $array=array();
+    for($i=0;$row = $GLOBALS['database']->fetch_row($result);$i++){
+        $array[$i] = array(0=>$row[0], 1=>$row[1], 2=>$row[2], 3=>$row[3]);
+    }
+    echo json_encode($array);
+}
+function plan($status){
+    switch(strtolower($status)){
+        case 'completed':
+            $status='S';
+        case 'in progress':
+            $status = "IP";
+        case 'not completed':
+        default:
+            $status = 'U';
+    }
+    $result = $GLOBALS['database']->query("SELECT * FROM STUDENT_PLANS WHERE STATUS='$status' STUDENT_ID=".$_SESSION['sid']);
+    $array=array();
+    for($i=0;$row = $GLOBALS['database']->fetch_row($result);$i++){
+        $array[$i] = array(0=>$row[0], 1=>$row[1], 2=>$row[2], 3=>$row[3]);
+    }
+    echo json_encode($array);
+}
 function login($user, $pass){
     $privateKey = openssl_get_privatekey("-----BEGIN RSA PRIVATE KEY-----
 MIIBOgIBAAJBAILMveJq+2yD2rTo8Fu9ZqtRyylzLyIUUkrUwmPGXLhlXV9mBi6J
@@ -41,10 +66,8 @@ eMEpk9g0YlDAUc4OwX4jWKg9Qw+De7cCIQCXvOW4unJw5d/AoFU7zcFBgrbMTEE6
 function absences(){
     $result = $GLOBALS['database']->query("SELECT C.COURSE_CODE, C.course_name_s, COUNT(*), (COUNT(*)*100)/(C.CONTACT_HRS*16) FROM Student_Absence AS A LEFT JOIN sis_courses AS C ON A.course_no=C.course_no WHERE SEMESTER=". $GLOBALS['curr_semes'] ." AND STUDENT_ID=".$_SESSION['uid']." GROUP BY A.COURSE_NO");
     $array=array();
-    $i=0;
-    while($row = $GLOBALS['database']->fetch_row($result)){
+    for($i=0;$row = $GLOBALS['database']->fetch_row($result);$i++){
         $array[$i] = array(0=>$row[0], 1=>$row[1], 2=>$row[2], 3=>$row[3]);
-        $i++;
     }
     echo json_encode($array);
 }
@@ -81,10 +104,8 @@ sis_major.MAJOR_NAME_S, ACADEMIC_RECORDS.CUM_GPA FROM Students_Info LEFT JOIN AC
 function exam_sched(){
     $result = $GLOBALS['database']->query("SELECT C.COURSE_CODE, C.course_name_s, T.FINALEXAM_DATE, T.EXAM_PERIOD FROM TimeTable AS T INNER JOIN SIS_COURSES AS C ON T.COURSE_NO=C.course_no WHERE T.COURSE_NO IN (SELECT COURSE_NO FROM Student_Course WHERE Student_ID=". $_SESSION['uid'] ." AND SEMESTER=". $GLOBALS['curr_semes'] .")");
     $array=array();
-    $i=0;
-    while ($row = $GLOBALS['database']->fetch_row($result)){
+    for($i=0;$row=$GLOBALS['database']->fetch_row($result);$i++){
         $array[$i]=array(0=>$row[0], 1=>$row[1],2=>$row[2], 3=>$row[3]);
-        $i++;
     }
     echo json_encode($array);
 }

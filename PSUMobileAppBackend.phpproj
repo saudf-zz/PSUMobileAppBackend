@@ -14,6 +14,7 @@
     <EnvName>PHPDev</EnvName>
     <PHPDevHostName>localhost</PHPDevHostName>
     <PHPDevAutoPort>true</PHPDevAutoPort>
+    <SaveServerSettingsInUserFile>false</SaveServerSettingsInUserFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>

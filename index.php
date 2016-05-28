@@ -2,7 +2,7 @@
 require('functions.php');
 switch ($_GET['req']){
     case 'check':
-            echo json_encode(array("auth"=>auth($_POST['sid'])));
+        echo json_encode(array("auth"=>auth($_POST['sid'])));
         break;
     case 'login':
         if(isset($_POST['UserID'])&&isset($_POST['UserPass'])){
@@ -18,10 +18,18 @@ switch ($_GET['req']){
         break;
     case 'absences':
         if(auth($_POST['sid'])){
-        absences();
+            absences();
+        }
+        break;
+    case 'sched':
+        if(auth($_POST['sid'])){
+            sched();
         }
         break;
     case 'plan':
+        if(auth($_POST['sid'])){
+            plan(addslashes($_GET['status']));
+        }
         break;
     case 'exams':
         if(auth($_POST['sid'])){
@@ -31,5 +39,4 @@ switch ($_GET['req']){
     default:
         break;
 }
-//$database->log_error($database->connection->get_warnings);
 ?>
