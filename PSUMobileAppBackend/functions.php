@@ -49,33 +49,33 @@ function absences(){
     echo json_encode($array);
 }
 function info (){
-    function getCollege($major){
+    function setCollege(&$major){
         switch($major){
             case 'Computer Science':
             case 'Computer Science / Digital Media':
             case 'Software Engineering':
             case 'Information Systems':
             case 'Information Systems / Business Computing & E- Commerce':
-                return "College of Computer Sciences and Information Systems";
+                $major = "College of Computer Sciences and Information Systems";
             case 'Finance':
             case 'Marketing':
             case 'Accounting':
             case 'Aviation Management':
-                return "College of Business Administation";
+                $major = "College of Business Administation";
             case 'Engineering Management / Construction':
             case 'Engineering Management / Production and Manufacturing':
             case 'Networks Engineering':
             case 'Communication Engineering':
-                return "College of Engineering";
+                $major = "College of Engineering";
             case 'Law':
-                return "College of Law";
+                $major = "College of Law";
             default:
-                return 'undef.';
+                $major = 'undef.';
         }
     }
-    $result = $GLOBALS['database']->fetch_array($GLOBALS['database']->query("SELECT Students_Info.FIRST_NAME, Students_Info.MID_NAME, Students_Info.LAST_NAME, Students_Info.STUDENT_ID,
+    $result = $GLOBALS['database']->fetch_array($GLOBALS['database']->query("SELECT CONCAT(Students_Info.FIRST_NAME, ' ', Students_Info.MID_NAME, ' ', Students_Info.LAST_NAME), Students_Info.STUDENT_ID,
 sis_major.MAJOR_NAME_S, ACADEMIC_RECORDS.CUM_GPA FROM Students_Info LEFT JOIN ACADEMIC_RECORDS ON ACADEMIC_RECORDS.STUDENT_ID=Students_Info.STUDENT_ID LEFT JOIN sis_major ON academic_records.MAJOR_ID=sis_major.MAJOR_NO WHERE Students_Info.STUDENT_ID=".$_SESSION['uid']));
-    $result[6] = getCollege($result[4]);
+    setCollege($result[4]);
     echo json_encode($result);
 }
 function exam_sched(){
