@@ -3,6 +3,7 @@
  * Oracle database library: for implementation.
  *
  * @version 1.0
+ * @deprecated databases won't be needed when the web services are working
  */
 class DB
 {

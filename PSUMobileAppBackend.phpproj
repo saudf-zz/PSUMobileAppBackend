@@ -28,6 +28,7 @@
     <Compile Include="index.php" />
     <Compile Include="MySQLi.php" />
     <Compile Include="Oracle.php" />
+    <Compile Include="test.php" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="db\" />

@@ -1,4 +1,7 @@
 <?php
+/**
+ * index file (for access via the app)
+ * */
 require('functions.php');
 switch ($_GET['req']){
     case 'check':
