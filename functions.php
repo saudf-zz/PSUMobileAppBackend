@@ -19,7 +19,7 @@ class NotImplementedException extends RuntimeException
         parent::__construct($message.$code,$previous);
     }
 }
-    $client = new SoapClient("http://web.psu.edu.sa/psuws/StudentService.svc?wsdl",array('trace'=>1));
+$client = new SoapClient("http://web.psu.edu.sa/psuws/StudentService.svc?wsdl",array('trace'=>1));
 /**
  * takes session ID from client (app) and sets it then checks if session is expired or not
  * @param int $sid
@@ -174,7 +174,7 @@ function exam_sched($id){
         //xml_parse_into_struct($parser,$client->__getLastResponse(),$output);
         //echo $client->GetFinalExamSchedule(array('StudentID'=>$id, 'Term'=>20161, 'Campus'=>1))->GetFinalExamScheduleResult;
         echo $client->__getLastResponse();
-        
+
     }
     catch(SoapFault $e){
         echo  'Caught exception: '.  $e->getMessage(). "\n";
