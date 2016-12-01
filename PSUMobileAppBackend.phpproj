@@ -23,17 +23,9 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="config.php" />
     <Compile Include="functions.php" />
     <Compile Include="index.php" />
-    <Compile Include="MySQLi.php" />
-    <Compile Include="Oracle.php" />
+    <Compile Include="logger.php" />
     <Compile Include="test.php" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="db\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="db\mock.sql" />
   </ItemGroup>
 </Project>

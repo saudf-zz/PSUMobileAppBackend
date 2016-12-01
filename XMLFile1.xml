@@ -1,0 +1,80 @@
+﻿<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetFinalExamScheduleResponse xmlns="http://tempuri.org/">
+      <GetFinalExamScheduleResult>
+        <xs:schema id="NewDataSet" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+          <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="Table" msdata:UseCurrentLocale="true">
+            <xs:complexType>
+              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="Table" msprop:BaseTable.0="VIEW_COURSES" msprop:BaseTable.1="VIEW_SIS_STUDENT_ACTIVITIES">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="COURSE" msprop:BaseColumn="COURSE_CODE" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+                      <xs:element name="SECTION" msprop:BaseColumn="SECTION_SEQ" msprop:OraDbType="112" type="xs:int" minOccurs="0"/>
+                      <xs:element name="EXAMDATE" msprop:OraDbType="106" type="xs:dateTime" minOccurs="0"/>
+                      <xs:element name="STARTTIME" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+                      <xs:element name="ENDTIME" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:schema>
+        <diffgr:diffgram xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+          <NewDataSet xmlns="">
+            <Table diffgr:id="Table1" msdata:rowOrder="0">
+              <COURSE>CS311</COURSE>
+              <SECTION>693</SECTION>
+              <EXAMDATE>2017-01-15T00:00:00+03:00</EXAMDATE>
+              <STARTTIME>16:00</STARTTIME>
+              <ENDTIME>18:00</ENDTIME>
+            </Table>
+            <Table diffgr:id="Table2" msdata:rowOrder="1">
+              <COURSE>CS331</COURSE>
+              <SECTION>168</SECTION>
+              <EXAMDATE>2017-01-21T00:00:00+03:00</EXAMDATE>
+              <STARTTIME>13:00</STARTTIME>
+              <ENDTIME>15:00</ENDTIME>
+            </Table>
+            <Table diffgr:id="Table3" msdata:rowOrder="2">
+              <COURSE>CS371</COURSE>
+              <SECTION>172</SECTION>
+              <EXAMDATE>2017-01-10T00:00:00+03:00</EXAMDATE>
+              <STARTTIME>13:00</STARTTIME>
+              <ENDTIME>15:00</ENDTIME>
+            </Table>
+            <Table diffgr:id="Table4" msdata:rowOrder="3">
+              <COURSE>CS391</COURSE>
+              <SECTION>695</SECTION>
+              <EXAMDATE>2017-01-14T00:00:00+03:00</EXAMDATE>
+              <STARTTIME>8:30</STARTTIME>
+              <ENDTIME>11:00</ENDTIME>
+            </Table>
+            <Table diffgr:id="Table5" msdata:rowOrder="4">
+              <COURSE>DMS426</COURSE>
+              <SECTION>725</SECTION>
+              <EXAMDATE>2017-01-26T00:00:00+03:00</EXAMDATE>
+              <STARTTIME>13:00</STARTTIME>
+              <ENDTIME>15:00</ENDTIME>
+            </Table>
+            <Table diffgr:id="Table6" msdata:rowOrder="5">
+              <COURSE>SE322</COURSE>
+              <SECTION>690</SECTION>
+              <EXAMDATE>2017-01-23T00:00:00+03:00</EXAMDATE>
+              <STARTTIME>8:30</STARTTIME>
+              <ENDTIME>11:00</ENDTIME>
+            </Table>
+            <Table diffgr:id="Table7" msdata:rowOrder="6">
+              <COURSE>SE423</COURSE>
+              <SECTION>704</SECTION>
+              <EXAMDATE>2017-01-22T00:00:00+03:00</EXAMDATE>
+              <STARTTIME>8:30</STARTTIME>
+              <ENDTIME>11:00</ENDTIME>
+            </Table>
+          </NewDataSet>
+        </diffgr:diffgram>
+      </GetFinalExamScheduleResult>
+    </GetFinalExamScheduleResponse>
+  </s:Body>
+</s:Envelope>
