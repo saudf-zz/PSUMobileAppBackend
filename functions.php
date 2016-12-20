@@ -33,7 +33,6 @@ function auth($sid){
 function advisor($id){
     global $client;
     try{
-        global $client;
         echo $client->GetAdvisor(array('StudentID'=>$id))->GetAdvisorResult;
     }
     catch(SoapFault $e){
@@ -43,14 +42,12 @@ function advisor($id){
 /**
  * tests the PSU LMS calendar web servics
  * @param int $id
- * @todo better usage of it, ID should be provided from session or app,
- * the SoapClient should be in a wider scope (most likely global, should be safe nonetheless)
  * @throws SoapFault
  */
 function calendar ($id){
+    global $client;
     try{
-        global $client;
-        $client->GetLMSCalendar/*1*/(array('StudentID'=>$id));
+        $client->GetLMSCalendar(array('StudentID'=>$id));
         $parser = xml_parser_create();
         xml_parse_into_struct($parser,$client->__getLastResponse(),$output);
         echo json_encode($output);
@@ -61,23 +58,33 @@ function calendar ($id){
 }
 /**
  * Summary of enrolledCourses
- * @param int $id
+ * @param integer $id
+ * @param integer $semester
  * @throws SoapFault
  */
 function enrolledCourses ($id){
+    global $client;
     try{
-        global $client;
-        $client->GetEnrolledCourses(array('StudentID'=>$id));
-        $parser = xml_parser_create();
-        xml_parse_into_struct($parser,$client->__getLastResponse(),$output);
-        json_encode($output);
+        $client->GetEnrolledCourses(array('StudentID'=>$id,'Term'=>20161))->GetEnrolledCoursesResult;
+        $response = $client->__getLastResponse();
+        $sxe = new SimpleXMLElement($response);
+        $sxe->registerXPathNamespace('d', 'urn:schemas-microsoft-com:xml-diffgram-v1');
+        $result = $sxe->xpath("//NewDataSet");
+        $out = array();
+        $counter = 0;
+        foreach($result[0] as $entry){
+            $out[$counter] = array('COURSE'=>$entry->{'COURSE'},'SECTION'=>$entry->{'SECTION'});
+            $counter++;
+        }
+        return $out;
     }
     catch (SoapFault $e) {
         echo  'Caught exception: '.  $e->getMessage(). "\n";
+        return null;
     }
 }
 /**
- * Summary of sched
+ * Returns the schedule of the student for a specific semester (Courses + start and end times)
  * @throws NotImplementedException all the time since no PSU web service equivelent exists yet
  */
 function sched(){
@@ -92,12 +99,11 @@ function plan($status){
     throw new NotImplementedException();
 }
 /**
- * Checks for user's credintials and logs them in if credintials are correct and
- * @todo remove private key from code in order to make it public, authenticartion should be via web services (waiting for university)
+ * Checks for user's credintials and logs them in if credintials are correct
+ *
  * @param int $id User's student ID
  * @param mixed $pass User's password
- * @throws InvalidArgumentException if ID or password is invzlid
- * @throws NotImplementedException all the time since no PSU web service equivelent exists yet
+ * @throws InvalidArgumentException if ID or password is invalid
  */
 function login($id, $pass){
     if(!is_string($pass)||!is_int($id)){
@@ -107,20 +113,30 @@ function login($id, $pass){
     throw new NotImplementedException();
 }
 /**
- * Summary of absences
- * @throws NotImplementedException all the time since no PSU web service equivelent exists yet
+ * Gets student ID and term and return an array of the courses and absences
+ * @param integer $id student's ID
+ * @param integer $term selected term for absences, should be year followed semester number, fall is 1, spring is 2, summer is 3
+ * @return array double dimension array where the first dimension is the courses and second is each course's information
  */
-function absences($id){
+function absences($id, $term){
     global $client;
     try{
-        global $client;
-        $client->GetAbsences(array('StudentID'=>$id, 'Term'=>20161));
-        $parser = xml_parser_create();
-        xml_parse_into_struct($parser,$client->__getLastResponse(),$output);
-        echo json_encode($output);
+        $client->GetAbsences(array('StudentID'=>$id, 'Term'=>$term))->GetAbsencesResult;
+        $response = $client->__getLastResponse();
+        $sxe = new SimpleXMLElement($response);
+        $sxe->registerXPathNamespace('d', 'urn:schemas-microsoft-com:xml-diffgram-v1');
+        $result = $sxe->xpath("//NewDataSet");
+        $out = array();
+        $counter = 0;
+        foreach ($result[0] as $title) {
+            $out[$counter] = array('COURSE'=>$title->{'COURSE'},'ABSENCES'=>$title->{'ABSENCES'});
+            $counter++;
+        }
+        return $out;
     }
     catch(SoapFault $e){
         echo  'Caught exception: '.  $e->getMessage(). "\n";
+        return null;
     }
 }
 /**
@@ -168,16 +184,22 @@ sis_major.MAJOR_NAME_S, ACADEMIC_RECORDS.CUM_GPA FROM Students_Info LEFT JOIN AC
 function exam_sched($id){
     global $client;
     try{
-        global $client;
         $client->GetFinalExamSchedule(array('StudentID'=>$id, 'Term'=>20161, 'Campus'=>1))->GetFinalExamScheduleResult;
-        //$parser = xml_parser_create();
-        //xml_parse_into_struct($parser,$client->__getLastResponse(),$output);
-        //echo $client->GetFinalExamSchedule(array('StudentID'=>$id, 'Term'=>20161, 'Campus'=>1))->GetFinalExamScheduleResult;
-        echo $client->__getLastResponse();
-
+        $response = $client->__getLastResponse();
+        $sxe = new SimpleXMLElement($response);
+        $sxe->registerXPathNamespace('d', 'urn:schemas-microsoft-com:xml-diffgram-v1');
+        $result = $sxe->xpath("//NewDataSet");
+        $out = array();
+        $counter = 0;
+        foreach ($result[0] as $title) {
+            $out[$counter] = array('COURSE'=>$title->{'COURSE'},'ABSENCES'=>$title->{'ABSENCES'});
+            $counter++;
+        }
+        return $out;
     }
     catch(SoapFault $e){
         echo  'Caught exception: '.  $e->getMessage(). "\n";
+        return null;
     }
 }
 ?>
